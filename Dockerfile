@@ -1,21 +1,12 @@
-# Use an official Python runtime as the base image
-FROM python:3.8-slim
+# syntax=docker/dockerfile:1
 
-# Set the working directory inside the container
-WORKDIR /app
+FROM python:3.8-slim-buster
 
-# Copy the current directory contents (your Flask app) into the container at /app
-COPY . /app
+WORKDIR /python-docker
 
-# Install the Flask dependency (and any other dependencies)
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-# Expose the port that the Flask app will run on
-EXPOSE 5000
+COPY . .
 
-# Set the environment variable for Flask
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-
-# Run the Flask app when the container starts
-CMD ["flask", "run"]
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
